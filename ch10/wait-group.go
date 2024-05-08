@@ -12,10 +12,10 @@ func processAndGather(in <-chan int, processor func(int) int, num int) []int {
 	for i := 0; i < num; i++ {
 		go func() {
 			defer wg.Done()
-			v := <-in
-			//for v := range in {
-			out <- processor(v)
-			//}
+			//v := <-in
+			for v := range in {
+				out <- processor(v)
+			}
 		}()
 	}
 	go func() {
@@ -39,6 +39,7 @@ func main() {
 		for i := 0; i < num; i++ {
 			ch <- i
 		}
+		close(ch)
 	}()
 	result := processAndGather(ch, double, num)
 	fmt.Println(result)
