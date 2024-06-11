@@ -9,7 +9,8 @@ func main() {
 	type Foo struct {
 		A int     `myTag:"value"`
 		B string  `myTag:"value2"`
-		C float64 `myTag:-`
+		C float64 `myTag:123`
+		D float32
 	}
 
 	var f Foo
@@ -24,7 +25,7 @@ func main() {
 	ivv := iv.Elem()
 	fmt.Println(ivv.Kind())
 	ivv.SetInt(500)
-	fmt.Println(i)
-	ivv.Set(reflect.ValueOf(int8(7)))
-	fmt.Println(i)
+	fmt.Println(i)                    // i = ?
+	ivv.Set(reflect.ValueOf(int8(7))) // ivv.Set(reflect.ValueOf(int8(500))) - Compile Error!!
+	fmt.Println(i)                    // i ?
 }
